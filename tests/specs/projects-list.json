@@ -1,0 +1,20 @@
+[
+  {
+    "name": "My projects",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "List all projects with actions: edit, duplicate, delete"
+            }
+          }
+        ],
+        "send": {
+          "callback": "projects:list"
+        }
+      }
+    ]
+  }
+]
