@@ -1,19 +1,93 @@
 [
   {
-    "name": "New site",
+    "name": "site:new starts the generation wizard",
     "steps": [
       {
+        "send": { "callback": "site:new" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Initiate site generation flow"
-            }
-          }
-        ],
-        "send": {
-          "callback": "site:new"
-        }
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Great — let's build your site!\n\nWhat does your product or business do? Describe it in a sentence or two so the AI knows what to generate." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "site:new full generation flow with confirm",
+    "strict": false,
+    "steps": [
+      {
+        "send": { "callback": "site:new" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Great — let's build your site!\n\nWhat does your product or business do? Describe it in a sentence or two so the AI knows what to generate." } }
+        ]
+      },
+      {
+        "send": { "text": "We sell handmade candles and natural wax melts" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Who is your target audience? (e.g. small business owners, fitness enthusiasts, local customers)" } }
+        ]
+      },
+      {
+        "send": { "text": "Eco-conscious home decor lovers" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What style do you prefer? Pick one or describe your own:\n\n• Clean & minimal\n• Bold & modern\n• Friendly & colorful\n• Professional & corporate" } }
+        ]
+      },
+      {
+        "send": { "text": "Clean & minimal" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Here's what I'll generate:\n\n📝 Description: We sell handmade candles and natural wax melts\n👥 Audience: Eco-conscious home decor lovers\n🎨 Style: Clean & minimal\n\nReady to generate?" } }
+        ]
+      },
+      {
+        "send": { "callback": "site:confirm" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText", "payload": { "text": "⏳ Generating your site… This usually takes about 30 seconds." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "site:new rejects short description",
+    "steps": [
+      {
+        "send": { "callback": "site:new" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Great — let's build your site!\n\nWhat does your product or business do? Describe it in a sentence or two so the AI knows what to generate." } }
+        ]
+      },
+      {
+        "send": { "text": "hi" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Tell me a bit more — at least a short sentence about what you do." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "site:new rejects short audience",
+    "steps": [
+      {
+        "send": { "callback": "site:new" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "We sell amazing products that everyone loves" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Who is your target audience? (e.g. small business owners, fitness enthusiasts, local customers)" } }
+        ]
+      },
+      {
+        "send": { "text": "a" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Just a quick note — who would use your product?" } }
+        ]
       }
     ]
   }

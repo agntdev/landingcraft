@@ -1,19 +1,58 @@
 [
   {
-    "name": "Publish to hosted URL",
+    "name": "site:publish shows empty state when no projects",
     "steps": [
       {
+        "send": { "callback": "site:publish:menu", "userId": 100 },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Publish current project to hosted subdomain"
-            }
-          }
-        ],
-        "send": {
-          "callback": "site:publish"
-        }
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "No publishable sites yet. Create a site first, then come back to publish it." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "site:publish with existing project",
+    "strict": false,
+    "steps": [
+      {
+        "send": { "callback": "site:new", "userId": 300 },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "An online pet supply store", "userId": 300 },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "Pet owners looking for premium supplies", "userId": 300 },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "Bold & modern", "userId": 300 },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "site:confirm", "userId": 300 },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText" }
+        ]
+      },
+      {
+        "send": { "callback": "site:publish:menu", "userId": 300 },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Which site would you like to publish?" } }
+        ]
       }
     ]
   }

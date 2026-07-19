@@ -1,0 +1,45 @@
+[
+  {
+    "name": "pricing:show displays all tiers",
+    "steps": [
+      {
+        "send": { "callback": "pricing:show" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Choose the plan that fits you:\n\nFree — $0 ✅ Current\n  • 3 site generations\n  • Free subdomain hosting\n  • Basic editor access\n\nPro — $19/mo\n  • 50 site generations\n  • Free subdomain hosting\n  • Full visual editor\n  • Priority support\n\nEnterprise — $49/mo\n  • 500 site generations\n  • Custom domain hosting\n  • Full visual editor\n  • Priority support\n  • Team collaboration" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "pricing upgrade flow shows confirmation",
+    "steps": [
+      {
+        "send": { "callback": "pricing:upgrade:pro" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Upgrade to Pro?\n\n✅ 50 site generations\n✅ Free subdomain hosting\n✅ Full visual editor\n✅ Priority support\n\nTotal: $19/mo\n\nYou'll get 50 generations per month." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "pricing confirm upgrade",
+    "steps": [
+      {
+        "send": { "callback": "pricing:upgrade:pro" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Upgrade to Pro?\n\n✅ 50 site generations\n✅ Free subdomain hosting\n✅ Full visual editor\n✅ Priority support\n\nTotal: $19/mo\n\nYou'll get 50 generations per month." } }
+        ]
+      },
+      {
+        "send": { "callback": "pricing:confirm:pro" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "✅ Payment confirmed!\n\nYou're now on the Pro plan.\nYour generation quota has been reset to 50." } }
+        ]
+      }
+    ]
+  }
+]
