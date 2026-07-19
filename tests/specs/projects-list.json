@@ -1,19 +1,46 @@
 [
   {
-    "name": "My projects",
+    "name": "projects:list with existing projects",
+    "strict": false,
     "steps": [
       {
+        "send": { "callback": "site:new", "userId": 200 },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "List all projects with actions: edit, duplicate, delete"
-            }
-          }
-        ],
-        "send": {
-          "callback": "projects:list"
-        }
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "A bakery selling artisan bread", "userId": 200 },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "Local foodies and health-conscious eaters", "userId": 200 },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "text": "Friendly & colorful", "userId": 200 },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "site:confirm", "userId": 200 },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText" }
+        ]
+      },
+      {
+        "send": { "callback": "projects:list", "userId": 200 },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText", "payload": { "text": "Your projects:" } }
+        ]
       }
     ]
   }
